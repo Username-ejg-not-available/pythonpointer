@@ -16,11 +16,11 @@ class LinkedList:
             self.front = temp
         elif index == self.length:
             temp2 = self.front
-            for i in range(self.length - 1): temp2 = deref(temp2).getNext()
+            for _ in range(self.length - 1): temp2 = deref(temp2).getNext()
             deref(temp2).setNext(temp)
         else:
             temp2 = self.front
-            for i in range(index - 1): temp2 = deref(temp2).getNext()
+            for _ in range(index - 1): temp2 = deref(temp2).getNext()
             deref(temp).setNext(deref(temp2).getNext())
             deref(temp2).setNext(temp)
         self.length += 1
