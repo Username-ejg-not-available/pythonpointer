@@ -6,18 +6,12 @@ class LinkedList:
         self.front = NULLPTR
         self.length = 0
 
-    def clone(): pass
-
     def insert(self,index,entry):
         if index < 0 or index > self.length: raise Exception("Bad index!")
         temp = new(Node(entry))
         if index == 0:
             deref(temp).setNext(self.front)
             self.front = temp
-        elif index == self.length:
-            temp2 = self.front
-            for _ in range(self.length - 1): temp2 = deref(temp2).getNext()
-            deref(temp2).setNext(temp)
         else:
             temp2 = self.front
             for _ in range(index - 1): temp2 = deref(temp2).getNext()
@@ -25,16 +19,38 @@ class LinkedList:
             deref(temp2).setNext(temp)
         self.length += 1
 
-    def remove(self): pass
+    # remove the node at the index. If the index is invalid, raise Exception
+    def remove(self,index:int): pass
 
-    def getEntry(self): pass
+    # return the entry from the node at the index
+    def getEntry(self,index:int):
+        if index < 0 or index > self.length: raise Exception("Bad index!")
+        if self.length == 0: raise Exception("List is empty!")
+        temp = self.front
+        for _ in range(index): temp = deref(temp).getNext()
+        return deref(temp).getEntry()
 
-    def setEntry(self): pass
+    # set the entry in the node at the index
+    def setEntry(self,index:int,entry): pass
 
+    # deletes all nodes
     def clear(self): pass
 
-    def contains(self) -> bool: pass
+    # returns true if there is a node containing the entry, false otherwise
+    def contains(self,entry) -> bool: pass
 
+    def getLength(self) -> int:
+        return self.length
+    
+    # returns a pointer to a deep copy
+    def clone(self):
+        copy = new(LinkedList())
+        temp = self.front
+        while temp != NULLPTR:
+            deref(copy).insert(deref(copy).length,deref(temp).entry)
+            temp = deref(temp).getNext()
+        return copy
+        
 class DLinkedList:
     def __init__(self):
         self.front = NULLPTR
@@ -68,14 +84,8 @@ class DLinkedList:
             deref(temp2).setNext(node)
         self.length += 1
 
-listt = new(DLinkedList())
+listt = new(LinkedList())
 deref(listt).insert(0,4)
+deref(listt).insert(1,5)
 deref(listt).insert(1,3)
-deref(listt).insert(0,5)
 printObj(listt)
-
-list2 = new(LinkedList())
-deref(list2).insert(0,4)
-deref(list2).insert(1,3)
-deref(list2).insert(0,5)
-printObj(list2)

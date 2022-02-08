@@ -8,14 +8,17 @@ class _MemAddr:
 _heap = {}
 NULLPTR = _MemAddr(0x0)
 
-_makeaddr = lambda x: _MemAddr(hex(int(random.random() * 4096)+1))
+_makeaddr = lambda: _MemAddr(hex(int(random.random() * 4095)+1))
+
+# for debugging purposes, will be imported by the wildcard
+public_heap = {}
 
 def new(obj):
     global _heap
-    addr = _makeaddr(0)
-    while addr in _heap or addr == NULLPTR:
-        addr = _makeaddr(0)
+    addr = _makeaddr()
+    while addr in _heap: addr = _makeaddr()
     _heap[addr] = obj
+    public_heap[addr.addr] = obj
     return addr
 
 def deref(pointer):
@@ -40,7 +43,7 @@ def _pHelp(obj,file,addr:str,states,printNull:bool) -> str:
         elif isinstance(dic[x],_MemAddr): 
             if dic[x] in _heap: 
                 pointsto = _pHelp(deref(dic[x]),file,dic[x].addr,states,printNull)
-                file.write("\t"+cname+" -> "+pointsto+" [label="+x+"]")
+                file.write("\t"+cname+" -> "+pointsto+" [label="+x+"]\n")
             else: raise Exception("Segfault!")
         else: 
             file.write("\t"+x+addr+" [label=\""+x+": "+str(dic[x])+"\"]\n")
