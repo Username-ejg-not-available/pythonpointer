@@ -6,6 +6,9 @@ class _MemAddr:
     def __init__(self, addr):
         self.addr = addr
 
+    def __repr__(self):
+        return str(self.addr)
+
 
 _heap = {}
 NULLPTR = _MemAddr(0x0)
